@@ -11,11 +11,11 @@ class Logo extends StatelessWidget {
             FaIcon(
               FontAwesomeIcons.plusSquare,
               size: 120,
-              color: Color(0xffFF0303),
+              color: Colors.white,
             ),
             Text(
               'AppMedica',
-              style: TextStyle(fontSize: 25, color: Color(0xffFF0303)),
+              style: TextStyle(fontSize: 25, color: Colors.white),
             )
           ],
         ),

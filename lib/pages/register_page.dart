@@ -75,6 +75,7 @@ class _Form extends StatefulWidget {
 class __FormState extends State<_Form> {
   final emailCtrl = TextEditingController();
   final passCtrl = TextEditingController();
+  final nameCtrl = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -82,6 +83,12 @@ class __FormState extends State<_Form> {
       padding: EdgeInsets.symmetric(horizontal: 50),
       child: Column(
         children: [
+          CustomInput(
+            icon: Icons.person_outline,
+            placeholder: 'Nombre',
+            textController: nameCtrl,
+            keyboardType: TextInputType.text,
+          ),
           CustomInput(
             icon: Icons.mail_outline,
             placeholder: 'Correo',
@@ -93,7 +100,9 @@ class __FormState extends State<_Form> {
               placeholder: 'Contraseña',
               isPassword: true,
               textController: passCtrl),
-          BotonAzul(texto: 'Iniciar Sesion', onPressed: () {}),
+          BotonAzul(
+              texto: 'Registrarse',
+              onPressed: () => Navigator.pushNamed(context, 'home')),
         ],
       ),
     );

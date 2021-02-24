@@ -93,7 +93,9 @@ class __FormState extends State<_Form> {
               placeholder: 'Contraseña',
               isPassword: true,
               textController: passCtrl),
-          BotonAzul(texto: 'Iniciar Sesion', onPressed: () {}),
+          BotonAzul(
+              texto: 'Iniciar Sesion',
+              onPressed: () => Navigator.pushNamed(context, 'home')),
           Container(
             margin: EdgeInsets.only(top: 20),
             child: Text(
