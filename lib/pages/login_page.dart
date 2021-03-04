@@ -1,11 +1,19 @@
+import 'package:app_medica/helpers/mostrar_alerta.dart';
+import 'package:app_medica/services/auth_services.dart';
 import 'package:app_medica/widgets/Fondo.dart';
 import 'package:app_medica/widgets/Logo.dart';
 import 'package:app_medica/widgets/boton_azul.dart';
 import 'package:app_medica/widgets/custom_input.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,8 +43,8 @@ class LoginPage extends StatelessWidget {
                                     TextStyle(color: Colors.red, fontSize: 20),
                               )),
                           FlatButton(
-                              onPressed: () =>
-                                  Navigator.pushNamed(context, 'register'),
+                              onPressed: () => Navigator.pushReplacementNamed(
+                                  context, 'register'),
                               child: Text(
                                 'Registrarse',
                                 style: TextStyle(
@@ -77,6 +85,7 @@ class __FormState extends State<_Form> {
   final passCtrl = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final authServices = Provider.of<AuthServices>(context);
     return Container(
       margin: EdgeInsets.only(top: 40),
       padding: EdgeInsets.symmetric(horizontal: 50),
@@ -94,8 +103,23 @@ class __FormState extends State<_Form> {
               isPassword: true,
               textController: passCtrl),
           BotonAzul(
-              texto: 'Iniciar Sesion',
-              onPressed: () => Navigator.pushNamed(context, 'home')),
+            texto: 'Iniciar Sesion',
+            onPressed: authServices.autenticando
+                ? null
+                : () async {
+                    FocusScope.of(context).unfocus();
+                    final loginOk = await authServices.login(
+                        emailCtrl.text.trim(), passCtrl.text.trim());
+
+                    if (loginOk) {
+                      Navigator.pushReplacementNamed(context, 'menu');
+                    } else {
+                      mostrarAlerta(context, 'Credenciales incorrectas',
+                          'Contraseña o correo incorrecto');
+                    }
+                  },
+            // onPressed: () => Navigator.pushReplacementNamed(context, 'menu')
+          ),
           Container(
             margin: EdgeInsets.only(top: 20),
             child: Text(

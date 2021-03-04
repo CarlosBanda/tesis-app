@@ -1,9 +1,12 @@
+import 'package:app_medica/helpers/mostrar_alerta.dart';
+import 'package:app_medica/services/auth_services.dart';
 import 'package:app_medica/widgets/Fondo.dart';
 import 'package:app_medica/widgets/Logo.dart';
 import 'package:app_medica/widgets/boton_azul.dart';
 import 'package:app_medica/widgets/custom_input.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 class RegisterPage extends StatelessWidget {
   @override
@@ -76,8 +79,11 @@ class __FormState extends State<_Form> {
   final emailCtrl = TextEditingController();
   final passCtrl = TextEditingController();
   final nameCtrl = TextEditingController();
+  final rolCtrl = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthServices>(context);
+
     return Container(
       margin: EdgeInsets.only(top: 40),
       padding: EdgeInsets.symmetric(horizontal: 50),
@@ -100,9 +106,33 @@ class __FormState extends State<_Form> {
               placeholder: 'Contraseña',
               isPassword: true,
               textController: passCtrl),
+          CustomInput(
+              icon: Icons.lock_outline,
+              placeholder: 'Rol',
+              keyboardType: TextInputType.text,
+              textController: rolCtrl),
           BotonAzul(
               texto: 'Registrarse',
-              onPressed: () => Navigator.pushNamed(context, 'home')),
+              onPressed: authService.autenticando
+                  ? null
+                  : () async {
+                      print(emailCtrl);
+                      print(passCtrl);
+                      print(nameCtrl);
+                      print(rolCtrl);
+
+                      final registroOk = await authService.register(
+                          nameCtrl.text.trim(),
+                          emailCtrl.text.trim(),
+                          passCtrl.text.trim(),
+                          rolCtrl.text.trim());
+                      if (registroOk == true) {
+                        Navigator.pushReplacementNamed(context, 'menu');
+                      } else {
+                        mostrarAlerta(
+                            context, 'Registro incorrecto', 'registroOk');
+                      }
+                    }),
         ],
       ),
     );

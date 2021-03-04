@@ -1,6 +1,5 @@
 import 'package:app_medica/pages/chat_page.dart';
 import 'package:app_medica/pages/doctors_page.dart';
-import 'package:app_medica/pages/home_page.dart';
 import 'package:app_medica/pages/maps_page.dart';
 import 'package:app_medica/pages/perfil_page.dart';
 import 'package:flutter/material.dart';
@@ -25,18 +24,16 @@ class _MenuPageState extends State<MenuPage> {
   Widget _callPage(int paginaActual) {
     switch (paginaActual) {
       case 0:
-        return HomePage();
-      case 1:
-        return MapsPage();
-      case 2:
-        return ChatPage();
-      case 3:
         return DoctorsPage();
-      case 4:
+      case 1:
+        return ChatPage();
+      case 2:
+        return MapsPage();
+      case 3:
         return PerfilPage();
 
       default:
-        return HomePage();
+        return DoctorsPage();
     }
   }
 
@@ -52,20 +49,16 @@ class _MenuPageState extends State<MenuPage> {
       },
       items: [
         BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-            backgroundColor: Colors.blue),
-        BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.hospital),
-            label: 'Hospitales',
+            icon: FaIcon(FontAwesomeIcons.userMd),
+            label: 'Doctores',
             backgroundColor: Colors.blue),
         BottomNavigationBarItem(
             icon: FaIcon(FontAwesomeIcons.comments),
             label: 'chat',
             backgroundColor: Colors.blue),
         BottomNavigationBarItem(
-            icon: FaIcon(FontAwesomeIcons.userMd),
-            label: 'Doctores',
+            icon: FaIcon(FontAwesomeIcons.hospital),
+            label: 'Hospitales',
             backgroundColor: Colors.blue),
         BottomNavigationBarItem(
             icon: FaIcon(FontAwesomeIcons.userAlt),
